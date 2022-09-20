@@ -1,0 +1,5 @@
+friends_data/
+.vscode/
+matrix.pickle
+names.txt
+vectorizer.pkl
