@@ -10,9 +10,9 @@ def parse_args():
     parser.set_defaults(build_corpus=True)
     parser.add_argument("--query", type=str, required=True, help="String with query")
     parser.add_argument("--data_dir", type=Path, required=True, help="Path to directory with data")
-    parser.add_argument("--vectorizer_filename", type=Path, required=False, default="vectorizer.pkl", help="Path to directory with data")
-    parser.add_argument("--matrix_filename", type=Path, required=False, default="matrix.pickle", help="Path to directory with data")
-    parser.add_argument("--names_filename", type=Path, required=False, default="names.txt", help="Path to directory with data")
+    parser.add_argument("--vectorizer_filename", type=Path, required=False, default="vectorizer.pkl", help="Path to file with vectorizer")
+    parser.add_argument("--matrix_filename", type=Path, required=False, default="matrix.pkl", help="Path to file with corpus matrix")
+    parser.add_argument("--names_filename", type=Path, required=False, default="names.txt", help="Path to file with document names")
     args = parser.parse_args()
     return args
 

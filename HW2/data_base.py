@@ -8,9 +8,11 @@ from tqdm import tqdm
 import os
 import pickle
 from sklearn.metrics.pairwise import cosine_similarity
+from pathlib import Path
+import scipy
 
 class DataBase:
-    def __init__(self, data_dir, vectorizer_filename, matrix_filename, build_corpus, names_filename):
+    def __init__(self, data_dir: Path, vectorizer_filename: Path, matrix_filename: Path, build_corpus: bool, names_filename: Path):
         self.morph = pymorphy2.MorphAnalyzer()
         self.stopwords = stopwords.words('russian') + list(punctuation)
         self.names = []
@@ -32,35 +34,33 @@ class DataBase:
                 file.write("\n".join(self.names))
 
     @staticmethod
-    def do_nothing(tokens):
+    def do_nothing(tokens: list) -> list:
         return tokens
 
-    def normalize_text(self, text):
+    def normalize_text(self, text: str) -> list:
         return [
             self.morph.parse(word)[0].normal_form
             for word in word_tokenize(text.lower()) 
             if (re.search(r"[^a-zа-я ]", word) is None) and word not in self.stopwords
             ]
 
-    def get_corpus(self, data_dir):
+    def get_corpus(self, data_dir: Path) -> list:
         corpus = []
-        curr_dir = os.getcwd()
-        filepath = os.path.join(curr_dir, data_dir)
-        for root, dirs, files in tqdm(os.walk(filepath)):
+        for root, dirs, files in tqdm(os.walk(data_dir)):
             for name in tqdm(files):
                 self.names.append(name)
                 with open(os.path.join(root, name), 'r', encoding="utf-8") as f:  
                     corpus.append(self.normalize_text(f.read()))
         return corpus
 
-    def get_index(self, vectorizer_filename, matrix_filename):
+    def get_index(self, vectorizer_filename: Path, matrix_filename: Path) -> scipy.sparse.csr.csr_matrix:
         matrix = self.vectorizer.fit_transform(self.corpus)
         pickle.dump(self.vectorizer, open(vectorizer_filename, "wb"))
         pickle.dump(matrix, open(matrix_filename, "wb"))
         return matrix
 
-    def get_query(self, query):
+    def get_query(self, query: str) -> scipy.sparse.csr.csr_matrix:
         return self.vectorizer.transform([self.normalize_text(query)])
     
-    def count_similarity(self, query):
+    def count_similarity(self, query: scipy.sparse.csr.csr_matrix):
         return cosine_similarity(self.matrix, query).reshape(self.matrix.shape[0])
