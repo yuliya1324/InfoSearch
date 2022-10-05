@@ -4,3 +4,5 @@ matrix.pkl
 names.txt
 vectorizer.pkl
 __pycache__/
+data.jsonl
+data_hw3
