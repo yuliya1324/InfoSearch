@@ -14,6 +14,7 @@ def parse_args():
     parser.add_argument("--count_vectorizer_filename", type=Path, required=False, default="data_hw3/count_vectorizer.pkl", help="Path to file with vectorizer")
     parser.add_argument("--matrix_filename", type=Path, required=False, default="data_hw3/matrix.pkl", help="Path to file with corpus matrix")
     parser.add_argument("--answers_filename", type=Path, required=False, default="data_hw3/answers.txt", help="Path to file with document names")
+    parser.add_argument("--n_answers", type=int, required=False, help="String with query", default=None)
     args = parser.parse_args()
     return args
 
@@ -29,7 +30,10 @@ def main(args):
     query = db.get_query(args.query)
     doc_idx = db.count_similarity(query)
     sorted_scores_indx = np.argsort(doc_idx, axis=0)[::-1]
-    print("\n".join(np.array(db.answers)[sorted_scores_indx.ravel()]))
+    if args.n_answers:
+        print("\n".join(np.array(db.answers)[sorted_scores_indx.ravel()][:args.n_answers]))
+    else:
+        print("\n".join(np.array(db.answers)[sorted_scores_indx.ravel()]))
 
 if __name__ == '__main__':
     args = parse_args()
