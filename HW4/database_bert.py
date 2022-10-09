@@ -35,7 +35,7 @@ class DataBaseBert:
         return sum_embeddings / sum_mask
 
     def get_corpus(self, data_dir: Path, answers_filename: Path):
-        with jsonlines.open('data.jsonl') as reader:
+        with jsonlines.open(data_dir) as reader:
             i = 0
             for item in tqdm(reader, total=50000):
                 if i == 50000:
