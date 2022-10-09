@@ -60,7 +60,7 @@ class DataBaseBert:
             with torch.no_grad():
                 model_output = self.model(**encoded_input)
             result.append(self.mean_pooling(model_output, encoded_input['attention_mask']))
-        self.matrix_questions = torch.stack(result).reshape((self.matrix.shape[0]*self.matrix.shape[1], self.matrix.shape[-1]))
+        self.matrix_questions = torch.stack(result).reshape((self.matrix_questions.shape[0]*self.matrix_questions.shape[1], self.matrix_questions.shape[-1]))
         pickle.dump(self.matrix_questions, open(questions_matrix_filename, "wb"))
 
         result = []
@@ -71,7 +71,7 @@ class DataBaseBert:
             with torch.no_grad():
                 model_output = self.model(**encoded_input)
             result.append(self.mean_pooling(model_output, encoded_input['attention_mask']))
-        self.matrix_answers = torch.stack(result).reshape((self.matrix.shape[0]*self.matrix.shape[1], self.matrix.shape[-1]))
+        self.matrix_answers = torch.stack(result).reshape((self.matrix_answers.shape[0]*self.matrix_answers.shape[1], self.matrix_answers.shape[-1]))
         pickle.dump(self.matrix_answers, open(answers_matrix_filename, "wb"))
 
     def get_query(self, query: str) -> torch.Tensor:
