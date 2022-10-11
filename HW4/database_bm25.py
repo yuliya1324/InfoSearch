@@ -1,6 +1,7 @@
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from string import punctuation
 import re
+import nltk
 from nltk.corpus import stopwords
 from nltk import word_tokenize
 import pymorphy2
@@ -11,6 +12,8 @@ import scipy
 import jsonlines
 import numpy as np
 from scipy import sparse
+
+nltk.download('stopwords')
 
 class DataBaseBM25:
     def __init__(self, data_dir: Path, count_vectorizer_filename: Path, questions_matrix_filename: Path, answers_matrix_filename: Path, build_corpus: bool, answers_filename: Path):

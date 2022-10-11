@@ -1,9 +1,7 @@
 friends_data/
 .vscode/
-matrix.pkl
-names.txt
-vectorizer.pkl
 __pycache__/
 data.jsonl
-data_hw3
-data_hw4
+bert
+bm25
+sbert_large_nlu_ru

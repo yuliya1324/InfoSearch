@@ -16,7 +16,7 @@ def parse_args():
     parser.add_argument("--answers_matrix_filename_bert", type=Path, required=False, default="bert/answers_matrix.pkl", help="Path to file with corpus matrix for Bert")
     parser.add_argument("--questions_matrix_filename_bm25", type=Path, required=False, default="bm25/questions_matrix.pkl", help="Path to file with question matrix for BM25")
     parser.add_argument("--answers_matrix_filename_bm25", type=Path, required=False, default="bm25/answers_matrix.pkl", help="Path to file with corpus matrix for BM25")
-    parser.add_argument("--answers_filename", type=Path, required=False, default="answers.txt", help="Path to file with document names")
+    parser.add_argument("--answers_filename", type=Path, required=False, default="bert/answers.txt", help="Path to file with document names")
     parser.add_argument("--n_answers", type=int, required=False, help="number of answers", default=None)
     parser.add_argument("--device", type=str, required=False, help="device", default="cpu")
     parser.add_argument("--count_vectorizer_filename", type=Path, required=False, default="bm25/count_vectorizer.pkl", help="Path to file with vectorizer")
