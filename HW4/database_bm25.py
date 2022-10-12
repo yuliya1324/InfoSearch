@@ -128,11 +128,6 @@ class DataBaseBM25:
         return np.dot(self.matrix_answers, query.T).toarray()
 
     def evaluate(self, n: int) -> int:
-        matrix = np.dot(self.matrix_answers, self.matrix_questions.T)
-        A = [
-            1 
-            if i in np.argsort(matrix[:, i], axis=0)[::-1][:n] 
-            else 0 
-            for i in range(matrix.shape[-1])
-            ]
-        return sum(A) / matrix.shape[0]
+        matrix = np.dot(self.matrix_answers[:10000], self.matrix_questions[:10000].T)
+        docs = np.arange(matrix.shape[0])
+        return np.sum(np.argsort(-matrix.toarray(), axis=1)[:, :n] == np.tile(docs, (n, 1)).T) / matrix.shape[0]

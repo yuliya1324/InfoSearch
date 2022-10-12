@@ -20,6 +20,7 @@ def parse_args():
     parser.add_argument("--n_answers", type=int, required=False, help="number of answers", default=None)
     parser.add_argument("--device", type=str, required=False, help="device", default="cpu")
     parser.add_argument("--count_vectorizer_filename", type=Path, required=False, default="bm25/count_vectorizer.pkl", help="Path to file with vectorizer")
+    parser.add_argument("--task", type=int, required=False, help="which task to perform", default=1)
     
     args = parser.parse_args()
     return args
@@ -49,17 +50,22 @@ def main(args):
         args.answers_filename,
     )
 
-    sorted_scores_indx = find_ans(db_bert, args.query)
+    if args.task == 1:
+        sorted_scores_indx = find_ans(db_bert, args.query)
 
-    print(f"Task 1.\n\nYour query: {args.query}\nAnswers:\n")
-    if args.n_answers:
-        print("\n".join(np.array(db_bert.answers)[sorted_scores_indx.ravel()][:args.n_answers]))
+        print(f"Task 1.\n\nYour query: {args.query}\nAnswers:\n")
+        if args.n_answers:
+            print("\n".join(np.array(db_bert.answers)[sorted_scores_indx.ravel()][:args.n_answers]))
+        else:
+            print("\n".join(np.array(db_bert.answers)[sorted_scores_indx.ravel()]))
+
+    elif args.task == 2:
+        metrics_bm25 = db_bm25.evaluate(args.n_answers)
+        metrics_bert = db_bert.evaluate(args.n_answers)
+        print(f"Task 2.\n\nMetrics for BM25: {metrics_bm25}\nMetrics for Bert: {metrics_bert}\n")
+    
     else:
-        print("\n".join(np.array(db_bert.answers)[sorted_scores_indx.ravel()]))
-
-    metrics_bm25 = db_bm25.evaluate(args.n_answers)
-    metrics_bert = db_bert.evaluate(args.n_answers)
-    print(f"Task 2.\n\nMetrics for BM25: {metrics_bm25}\nMetrics for Bert: {metrics_bert}\n")
+        print("Only task 1 or 2 can be performed.")
 
 if __name__ == '__main__':
     args = parse_args()

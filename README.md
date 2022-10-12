@@ -46,8 +46,15 @@
 * `--answers_matrix_filename_bert` (опционально, по дефолту "bert/answers_matrix.pkl")
 * `--questions_matrix_filename_bm25` (опционально, по дефолту "bm25/questions_matrix.pkl")
 * `--answers_matrix_filename_bm25` (опционально, по дефолту "bm25/answers_matrix.pkl")
-* `--device` (опционально, по дефолту "cpu")    
+* `--device` (опционально, по дефолту "cpu")
+* `--task` номер задания (опционально, по дефолту "1")
 
 В консоли будет выведены progress bars при формировании корпуса, а в конце -- ответы на задания:
 1. отсортированные по убыванию ответы на вопрос
 2. метрики для каждого способа векторизации
+
+Метрики, которые у меня получились:
+```
+Metrics for BM25: 0.1125
+Metrics for Bert: 0.0697
+```
