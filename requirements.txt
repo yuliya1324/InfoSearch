@@ -7,3 +7,4 @@ jsonlines
 scipy
 tqdm
 pymorphy2
+streamlit
